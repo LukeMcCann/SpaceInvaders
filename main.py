@@ -18,9 +18,8 @@ playerImg = pygame.image.load("images/player.png")
 playerX = WIN_WIDTH/2-25
 playerY = WIN_HEIGHT/2+180
 
-def player():
-    window.blit(playerImg, [playerX, playerY])
-
+def player(x,y):
+    window.blit(playerImg, [x,y])
 
 # Game Loop
 RUNNING = True
@@ -29,6 +28,12 @@ while RUNNING:
         if event.type == pygame.QUIT:
             RUNNING = False
 
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_LEFT:
+            playerX -= 0.05;
+        if event.key == pygame.K_RIGHT:
+            playerX += 0.05
+
     # window.fill((0,0,0))
-    player()
+    player(playerX,playerY)
     pygame.display.update()
