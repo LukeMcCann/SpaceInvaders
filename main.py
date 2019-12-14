@@ -9,6 +9,8 @@ WIN_HEIGHT = 600
 
 window = pygame.display.set_mode([WIN_WIDTH, WIN_HEIGHT])
 
+background = pygame.image.load("images/background.png")
+
 # Title and icon
 pygame.display.set_caption("Space Invaders")
 icon = pygame.image.load('images/ufo.png')
@@ -20,7 +22,7 @@ playerImg = pygame.image.load("images/player.png")
 playerX = WIN_WIDTH / 2 - 25
 playerY = WIN_HEIGHT / 2 + 180
 
-PLAYER_SPEED = 0.3
+PLAYER_SPEED = 3
 
 
 def player(x, y):
@@ -32,8 +34,9 @@ invaderImg = pygame.image.load("images/invader.png")
 invaderX = random.randint(0, WIN_WIDTH-64)
 invaderY = random.randint(0, WIN_HEIGHT-140)
 
-invaderX_change = 0.3
-
+invaderX_change = 1
+invaderY_change = 40
+INVADER_SPEED = 1
 
 def invader(x, y):
     window.blit(invaderImg, [x, y])
@@ -47,6 +50,7 @@ while RUNNING:
             RUNNING = False
 
     window.fill([0, 0, 51])
+    window.blit(background, [0,0])
 
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_LEFT:
@@ -61,9 +65,11 @@ while RUNNING:
 
     invaderX += invaderX_change
     if invaderX <= 0:
-        invaderX_change = 0.3
+        invaderX_change = INVADER_SPEED
+        invaderY += invaderY_change
     elif invaderX >= WIN_WIDTH - 64:
-        invaderX_change = -0.3
+        invaderX_change = -INVADER_SPEED
+        invaderY += invaderY_change
 
     player(playerX, playerY)
     invader(invaderX, invaderY)
