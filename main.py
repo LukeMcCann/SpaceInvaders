@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # initialize pygame
 pygame.init()
@@ -28,8 +29,8 @@ def player(x, y):
 
 # Invader
 invaderImg = pygame.image.load("images/invader.png")
-invaderX = WIN_HEIGHT / 2
-invaderY = WIN_WIDTH / 2
+invaderX = random.randint(0, WIN_WIDTH-64)
+invaderY = random.randint(0, WIN_HEIGHT-140)
 
 INVADER_SPEED = 0.1
 
