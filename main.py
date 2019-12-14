@@ -32,7 +32,7 @@ invaderImg = pygame.image.load("images/invader.png")
 invaderX = random.randint(0, WIN_WIDTH-64)
 invaderY = random.randint(0, WIN_HEIGHT-140)
 
-INVADER_SPEED = 0.1
+invaderX_change = 0.3
 
 
 def invader(x, y):
@@ -58,6 +58,12 @@ while RUNNING:
         playerX = 0
     elif playerX >= WIN_WIDTH - 64:
         playerX = WIN_WIDTH - 64
+
+    invaderX += invaderX_change
+    if invaderX <= 0:
+        invaderX_change = 0.3
+    elif invaderX >= WIN_WIDTH - 64:
+        invaderX_change = -0.3
 
     player(playerX, playerY)
     invader(invaderX, invaderY)
