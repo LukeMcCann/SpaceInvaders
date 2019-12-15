@@ -1,6 +1,8 @@
 import pygame
 import random
 
+# Quick game thrown together to work out the fundamentals of pygame
+
 # initialize pygame
 pygame.init()
 
@@ -31,15 +33,36 @@ def player(x, y):
 
 # Invader
 invaderImg = pygame.image.load("images/invader.png")
-invaderX = random.randint(0, WIN_WIDTH-64)
-invaderY = random.randint(0, WIN_HEIGHT-140)
+invaderX = random.randint(0, WIN_WIDTH - 64)
+invaderY = random.randint(0, WIN_HEIGHT - 140)
 
 invaderX_change = 1
 invaderY_change = 40
 INVADER_SPEED = 1
 
+
 def invader(x, y):
     window.blit(invaderImg, [x, y])
+
+
+# Missile
+missileImg = pygame.image.load("images/keratin_missile.png")
+missileY = playerY
+
+missileX_change = 0
+missileY_change = 10
+MISSILE_STATE = "ready"
+
+
+def fire_missile(x, y):
+    global MISSILE_STATE
+    global missileImg
+    MISSILE_STATE = "fire"
+    missileImg = pygame.transform.rotate(missileImg, 90)
+    window.blit(missileImg, [x + 16, y - 25])
+    missileImg = pygame.transform.rotate(missileImg, 180)
+    window.blit(missileImg, [x + 16, y - 25])
+    missileImg = pygame.transform.rotate(missileImg, 360)
 
 
 # Game Loop
@@ -50,13 +73,15 @@ while RUNNING:
             RUNNING = False
 
     window.fill([0, 0, 51])
-    window.blit(background, [0,0])
+    window.blit(background, [0, 0])
 
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_LEFT:
             playerX -= PLAYER_SPEED
         if event.key == pygame.K_RIGHT:
             playerX += PLAYER_SPEED
+        if event.key == pygame.K_SPACE:
+            fire_missile(playerX, missileY)
 
     if playerX <= 0:
         playerX = 0
@@ -70,6 +95,11 @@ while RUNNING:
     elif invaderX >= WIN_WIDTH - 64:
         invaderX_change = -INVADER_SPEED
         invaderY += invaderY_change
+
+    # Missile Movement
+    if MISSILE_STATE is "fire":
+        fire_missile(playerX, missileY)
+        missileY -= missileY_change
 
     player(playerX, playerY)
     invader(invaderX, invaderY)
